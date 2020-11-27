@@ -19,21 +19,21 @@ def create_hh_table(languages):
         hh_url = "https://api.hh.ru/vacancies"
         response = requests.get(hh_url, params=payload)
         response.raise_for_status()
-        hh_dict = response.json()
-        for page in range(hh_dict["pages"]):
+        hh_api_answer = response.json()
+        for page in range(hh_api_answer["pages"]):
             payload = {"text": f"Программист {lang}",
                        "area": 1,
                        "per_page": 50,
                        "page": page}
             response = requests.get(hh_url, params=payload)
             response.raise_for_status()
-            hh_dict = response.json()
-            for vacancy in hh_dict["items"]:
+            hh_api_answer = response.json()
+            for vacancy in hh_api_answer["items"]:
                 salary = predict_rub_salary_hh(vacancy)
                 if salary:
                     average_salary += salary
                     hh_vacancies_processed += 1
-        hh_answer[lang] = {"vacancies_found": hh_dict["found"],
+        hh_answer[lang] = {"vacancies_found": hh_api_answer["found"],
                        "vacancies_processed": hh_vacancies_processed,
                        "average_salary": int(average_salary / hh_vacancies_processed)}
     return hh_answer

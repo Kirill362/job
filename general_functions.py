@@ -1,10 +1,11 @@
 from terminaltables import AsciiTable
 
 
-def creating_table(info, title):
+def create_table(table_data, title):
     table_info = [["languages", "vacancies_found", "vacancies_processed", "average_salary"]]
-    for vacancy in info:
-        table_info.append([vacancy, info[vacancy]["vacancies_found"], info[vacancy]["vacancies_processed"], info[vacancy]["average_salary"]])
+    for vacancy in table_data:
+        vacancy_info = table_data[vacancy]
+        table_info.append([vacancy, vacancy_info["vacancies_found"], vacancy_info["vacancies_processed"], vacancy_info["average_salary"]])
     table = AsciiTable(table_info, title)
     return table.table
 
